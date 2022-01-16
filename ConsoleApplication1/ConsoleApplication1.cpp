@@ -2,10 +2,35 @@
 //
 
 #include <iostream>
+#include <vector>
+#include "ImageInfo.h"
+#include <filesystem>
+#include <fstream>
 
-int main()
+std::vector<ImageInfo> get_images(std::string indir)
 {
-    std::cout << "Hello World!\n";
+    std::vector<ImageInfo> imageinfos;
+    for (auto &d : std::filesystem::directory_iterator(indir))
+    {
+        if (d.path().extension().string() == std::string(".png"))
+        {
+            ImageInfo info;
+            info.Name = d.path().string();
+            info.Image = cv::imread(info.Name);
+            imageinfos.push_back(info);
+        }
+    }
+    return imageinfos;
+}
+
+int main(int argc, char *argv[])
+{
+    std::cout << "Process Start.\n";
+    std::string indir = std::string(argv[1]);
+    std::string outwidth = std::string(argv[2]);
+    std::string outheight = std::string(argv[3]);
+
+    auto images = get_images(indir);
 }
 
 // プログラムの実行: Ctrl + F5 または [デバッグ] > [デバッグなしで開始] メニュー
