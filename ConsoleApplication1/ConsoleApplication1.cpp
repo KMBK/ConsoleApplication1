@@ -1,11 +1,15 @@
-﻿// ConsoleApplication1.cpp : このファイルには 'main' 関数が含まれています。プログラム実行の開始と終了がそこで行われます。
-//
+﻿// プログラム概要
+// 引数: [indir] [outdir] [width] [height]
+// indirディレクトリから画像ファイル(pngのみ)を読み込み、
+// width*heightに拡縮してoutdirディレクトリに出力する。
 
 #include <iostream>
 #include <vector>
-#include "ImageInfo.h"
 #include <filesystem>
 #include <fstream>
+
+#include "ImageInfo.h"
+
 
 std::vector<ImageInfo> get_images(std::string indir)
 {
@@ -54,7 +58,7 @@ int main(int argc, char *argv[])
     std::cout << "Start." << std::endl;
 
     //引数をパース
-    if (argc != 4)
+    if (argc != 5)
     {
         std::cout << "引数の数が不正です。" << std::endl;
         return -1;
@@ -64,13 +68,15 @@ int main(int argc, char *argv[])
     {
         std::cout << "入力ディレクトリが存在しません。" << std::endl;
         return -1;
-    }    
+    }
+    std::string outdir = std::string(argv[2]);
+
     int outwidth;
     int outheight;
     try 
     {
-        outwidth = std::stoi(std::string(argv[2]).c_str());
-        outheight = std::stoi(std::string(argv[3]).c_str());
+        outwidth = std::stoi(std::string(argv[3]).c_str());
+        outheight = std::stoi(std::string(argv[4]).c_str());
     }
     catch (const std::invalid_argument& e)
     {
@@ -87,7 +93,6 @@ int main(int argc, char *argv[])
         std::cout << "出力画像のサイズ指定が不正です。" << std::endl;
         return -1;
     }
-    std::string outdir = "./result";
 
     //画像を取得
     auto images = get_images(indir);
