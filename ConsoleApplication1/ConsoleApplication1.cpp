@@ -24,6 +24,14 @@ std::vector<ImageInfo> get_images(std::string indir)
     return imageinfos;
 }
 
+void show_images(std::vector<ImageInfo>& images)
+{
+    for (auto& image : images)
+    {
+        std::cout << image.Path << std::endl;
+    }
+}
+
 void transform_images(std::vector<ImageInfo>& images, int width, int height)
 {
     for (auto& image : images)
@@ -43,18 +51,58 @@ void save_images(std::vector<ImageInfo> images, std::string outdir)
 
 int main(int argc, char *argv[])
 {
-    std::cout << "Process Start.\n";
-    std::string indir = std::string(argv[1]);
-    int outwidth = atoi(std::string(argv[2]).c_str());
-    int outheight = atoi(std::string(argv[3]).c_str());
+    std::cout << "Start." << std::endl;
 
-    auto images = get_images(indir);
-    transform_images(images, outwidth, outheight);
-    if (std::filesystem::exists("result") == false)
+    //引数をパース
+    std::string indir = std::string(argv[1]);
+    if (std::filesystem::exists(indir) == false)
     {
-        std::filesystem::create_directory("result");
+        std::cout << "入力ディレクトリが存在しません。" << std::endl;
+        return -1;
+    }    
+    int outwidth;
+    int outheight;
+    try 
+    {
+        outwidth = std::stoi(std::string(argv[2]).c_str());
+        outheight = std::stoi(std::string(argv[3]).c_str());
     }
-    save_images(images, "result");
+    catch (const std::invalid_argument& e)
+    {
+        std::cout << "出力画像のサイズ指定が不正です。" << std::endl;
+        return -1;
+    }
+    catch (const std::out_of_range& e)
+    {
+        std::cout << "出力画像のサイズ指定が不正です。" << std::endl;
+        return -1;
+    }
+    if (outwidth < 0 || outheight < 0)
+    {
+        std::cout << "出力画像のサイズ指定が不正です。" << std::endl;
+        return -1;
+    }
+    std::string outdir = "./result";
+
+    //画像を取得
+    auto images = get_images(indir);
+    std::cout << images.size() << "枚の画像を見つけました：";
+    
+    //取得した画像のフルパス表示
+    show_images(images);
+
+    //画像を指定サイズに変換
+    transform_images(images, outwidth, outheight);
+    
+    //出力ディレクトリに保存
+    if (std::filesystem::exists(outdir) == false)
+    {
+        std::filesystem::create_directory(outdir);
+    }
+    save_images(images, outdir);
+    
+    std::cout << "Finish." << std::endl;
+    return 0;
 }
 
 // プログラムの実行: Ctrl + F5 または [デバッグ] > [デバッグなしで開始] メニュー
