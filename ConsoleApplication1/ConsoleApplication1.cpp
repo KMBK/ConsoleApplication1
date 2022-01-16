@@ -54,6 +54,11 @@ int main(int argc, char *argv[])
     std::cout << "Start." << std::endl;
 
     //引数をパース
+    if (argc != 4)
+    {
+        std::cout << "引数の数が不正です。" << std::endl;
+        return -1;
+    }
     std::string indir = std::string(argv[1]);
     if (std::filesystem::exists(indir) == false)
     {
@@ -86,20 +91,24 @@ int main(int argc, char *argv[])
 
     //画像を取得
     auto images = get_images(indir);
-    std::cout << images.size() << "枚の画像を見つけました：";
+    std::cout << images.size() << "枚の画像を見つけました：" << std::endl;
     
     //取得した画像のフルパス表示
     show_images(images);
 
     //画像を指定サイズに変換
+    std::cout << "画像を" << outwidth << "×" << outheight << "に拡縮します。" << std::endl;
     transform_images(images, outwidth, outheight);
+    std::cout << "拡縮処理終了。" <<  std::endl;
     
+    std::cout << "画像を" << outdir << "に保存します。" << std::endl;
     //出力ディレクトリに保存
     if (std::filesystem::exists(outdir) == false)
     {
         std::filesystem::create_directory(outdir);
     }
     save_images(images, outdir);
+    std::cout << "保存処理終了。" << std::endl;
     
     std::cout << "Finish." << std::endl;
     return 0;
