@@ -44,7 +44,7 @@ void transform_images(std::vector<ImageInfo>& images, int width, int height)
     }
 }
 
-void save_images(std::vector<ImageInfo> images, std::string outdir)
+void save_images(std::vector<ImageInfo>& images, std::string outdir)
 {
     for (auto& image : images)
     {
