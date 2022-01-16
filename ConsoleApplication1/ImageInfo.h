@@ -6,4 +6,5 @@ class ImageInfo
 public:
 	cv::Mat Image;
 	std::string Name;
+	std::string Path;
 };
