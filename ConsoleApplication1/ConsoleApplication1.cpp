@@ -18,7 +18,6 @@ std::vector<ImageInfo> create_images(std::string indir)
     {
         if (d.path().extension().string() == ".png")
         {
-            ImageInfo info;
             auto& info = imageinfos.emplace_back();
             info.Path = d.path().string();
             info.Name = d.path().filename().string();
