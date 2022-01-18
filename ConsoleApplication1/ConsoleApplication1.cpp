@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
         std::cout << "出力画像のサイズ指定が不正です。" << std::endl;
         return -1;
     }
-    if (outwidth < 0 || outheight < 0)
+    if (outwidth <= 0 || outheight <= 0)
     {
         std::cout << "出力画像のサイズ指定が不正です。" << std::endl;
         return -1;
