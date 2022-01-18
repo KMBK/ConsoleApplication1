@@ -11,7 +11,7 @@
 #include "ImageInfo.h"
 
 
-std::vector<ImageInfo> get_images(std::string indir)
+std::vector<ImageInfo> create_images(std::string indir)
 {
     std::vector<ImageInfo> imageinfos;
     for (auto &d : std::filesystem::directory_iterator(indir))
@@ -95,7 +95,7 @@ int main(int argc, char *argv[])
     }
 
     //画像を取得
-    auto images = get_images(indir);
+    auto images = create_images(indir);
     std::cout << images.size() << "枚の画像を見つけました：" << std::endl;
     
     //取得した画像のフルパス表示
