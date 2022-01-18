@@ -75,8 +75,8 @@ int main(int argc, char *argv[])
     int outheight;
     try 
     {
-        outwidth = std::stoi(std::string(argv[3]).c_str());
-        outheight = std::stoi(std::string(argv[4]).c_str());
+        outwidth = std::stoi(std::string(argv[3]));
+        outheight = std::stoi(std::string(argv[4]));
     }
     catch (const std::invalid_argument& e)
     {
