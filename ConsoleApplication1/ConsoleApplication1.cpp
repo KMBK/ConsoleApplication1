@@ -16,7 +16,7 @@ std::vector<ImageInfo> get_images(std::string indir)
     std::vector<ImageInfo> imageinfos;
     for (auto &d : std::filesystem::directory_iterator(indir))
     {
-        if (d.path().extension().string() == std::string(".png"))
+        if (d.path().extension().string() == ".png")
         {
             ImageInfo info;
             info.Path = d.path().string();
